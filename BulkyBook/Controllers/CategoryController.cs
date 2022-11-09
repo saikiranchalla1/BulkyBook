@@ -65,7 +65,7 @@ namespace BulkyBook.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Edit obj)
+        public IActionResult Edit(Category obj)
         {
             if (obj.Name == obj.DisplayOrder.ToString()) // Custom Validation
             {
@@ -74,7 +74,7 @@ namespace BulkyBook.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
+                _db.Categories.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
