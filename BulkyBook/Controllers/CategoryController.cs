@@ -2,7 +2,7 @@
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBook
+namespace BulkyBook.Controllers
 {
     public class CategoryController : Controller
     {
