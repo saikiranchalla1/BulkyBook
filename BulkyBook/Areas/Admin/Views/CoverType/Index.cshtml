@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CoverType>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*@if(TempData["success"] != null)
+{
+    <h2>@TempData["success"]</h2>
+}*@
+<partial name="_Notification"/>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>"
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="CoverType" asp-action="Create" class="btn btn-primary">
+                Create New Category
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+            <th/>
+            </th>
+            <th />
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td width="50%">
+                    @obj.Name
+                </td>
+                <td width="30%">
+                    
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="CoverType" asp-action="Edit" asp-route-id="@obj.Id">Edit</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="CoverType" asp-action="Delete" asp-route-id="@obj.Id">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+ </table>
+
+
