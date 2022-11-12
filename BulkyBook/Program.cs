@@ -12,7 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
     ));
 
 //REGISTER Category repository to allow for Dependency injection
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+// builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();
