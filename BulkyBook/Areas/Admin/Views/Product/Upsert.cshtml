@@ -1,0 +1,68 @@
+﻿@model Product
+
+
+<form method="post" asp-action="Upsert ">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edi Category</h2>
+        </div>
+        <div asp-validation-summary="All"/>
+        <div class="mb-3">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger "/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger " />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ISBN"></label>
+            <input asp-for="ISBN" class="form-control" />
+            <span asp-validation-for="ISBN" class="text-danger " />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Author"></label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger " />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ListPrice"></label>
+            <input asp-for="ListPrice" class="form-control" />
+            <span asp-validation-for="ListPrice" class="text-danger " />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger " />
+        </div> 
+
+        <div class="mb-3">
+            <label asp-for="Price50"></label>
+            <input asp-for="Price50" class="form-control" />
+            <span asp-validation-for="Price50" class="text-danger " />
+        </div> 
+
+        <div class="mb-3">
+            <label asp-for="Price100"></label>
+            <input asp-for="Price100" class="form-control" />
+            <span asp-validation-for="Price100" class="text-danger " />
+        </div>
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">
+            Back to list
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

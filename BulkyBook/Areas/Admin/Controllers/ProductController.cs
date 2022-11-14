@@ -2,6 +2,7 @@
 using BulkyBook.Models;
 using BulkyBook.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
@@ -45,29 +46,35 @@ namespace BulkyBook.Areas.Admin.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Upsert(int? id)
         {
+            Product product = new();
+            IEnumerable<SelectListItem> CategoryItemsList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+            IEnumerable<SelectListItem> CoverTypeItemsList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
             if (id == null || id == 0)
             {
-                return NotFound();
+                return View(product);
             }
-
-            // var categoryFromDb = _db.Categories.Find(id); // or use the following
-            var categoryFromDb = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
-            /*var categoryFromDbFirst = _db.Categories.FirstOrDefault(u => u.Id == id);
-            var categoryFromDbSingle = _db.Categories.SingleOrDefault(u => u.Id == id);*/
-
-            if (categoryFromDb == null)
+            else
             {
-                return NotFound();
+                
             }
-            return View(categoryFromDb);
+
+            return View(product);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product obj)
+        public IActionResult Upsert(Product obj)
         {
            
             if (ModelState.IsValid)
