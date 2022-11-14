@@ -61,6 +61,10 @@ namespace BulkyBook.Areas.Admin.Controllers
             });
             if (id == null || id == 0)
             {
+                
+                ViewBag.CategoryList = CategoryItemsList;
+
+                ViewData["CoverTypeList"] = CoverTypeItemsList;
                 return View(product);
             }
             else

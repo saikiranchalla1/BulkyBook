@@ -54,6 +54,23 @@
             <input asp-for="Price100" class="form-control" />
             <span asp-validation-for="Price100" class="text-danger " />
         </div>
+
+        <div class="mb-3">
+            <label asp-for="Category"></label>
+            <select asp-for="Category" class="form-control" asp-items="ViewBag.CategoryList">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger " />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CoverType"></label>
+            <select asp-for="CoverType" class="form-control" asp-items="@ViewData["CoverTypeList"] as IEnumerable<SelectListItem>">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger " />
+        </div>
+
         <button type="submit" class="btn btn-primary">Edit</button>
         <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">
             Back to list
