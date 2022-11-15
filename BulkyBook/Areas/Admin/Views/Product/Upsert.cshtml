@@ -1,10 +1,10 @@
 ﻿@model BulkyBook.Models.ViewModels.ProductVM
 
 
-<form method="post" asp-action="Upsert ">
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Edi Category</h2>
+            <h2 class="text-primary">Create Product</h2>
         </div>
         <div asp-validation-summary="All"/>
         <div class="mb-3">
@@ -53,6 +53,10 @@
             <label asp-for="Product.Price100"></label>
             <input asp-for="Product.Price100" class="form-control" />
             <span asp-validation-for="Product.Price100" class="text-danger " />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ImageUrl"></label>
+            <input type="file" name="formFile" asp-for="Product.ImageUrl" class="form-control" />
         </div>
 
         <div class="mb-3">

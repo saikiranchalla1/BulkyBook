@@ -4,6 +4,7 @@ using BulkyBook.Models.ViewModels;
 using BulkyBook.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Packaging.Signing;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
@@ -12,9 +13,12 @@ namespace BulkyBook.Areas.Admin.Controllers
         // private readonly ApplicationDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        // To Access the Wwwroot folder use the DI
+        private readonly IWebHostEnvironment _webHostEnvironment; 
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -67,8 +71,8 @@ namespace BulkyBook.Areas.Admin.Controllers
             if (id == null || id == 0)
             {
                 //create product
-                //ViewBag.CategoryList = CategoryList;
-                //ViewData["CoverTypeList"] = CoverTypeList;
+                ViewBag.CategoryList = productVM.CategoryList;
+                ViewData["CoverTypeList"] = productVM.CoverTypeList;
                 return View(productVM);
             }
             else
@@ -83,21 +87,34 @@ namespace BulkyBook.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product obj)
+        public IActionResult Upsert(ProductVM obj, IFormFile? formFile)
         {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
            
-            if (ModelState.IsValid)
+            if (formFile != null)
             {
-                /* _db.Categories.Update(obj);
-                 _db.SaveChanges();*/
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = wwwRootPath + @"\images\products";
+                var fileExtension = Path.GetExtension(formFile.FileName);
 
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Category Edited successfully";
-                return RedirectToAction("Index");
+                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + fileExtension), FileMode.Create))
+                {
+                    formFile.CopyTo(fileStreams);
+                }
+                obj.Product.ImageUrl = @"\images\products\" + fileName + fileExtension;
             }
 
-            return View(obj);
+            if (obj.Product.Id == 0)
+            {
+                _unitOfWork.Product.Add(obj.Product);
+            }
+            else
+            {
+                _unitOfWork.Product.Update(obj.Product);
+            }
+            _unitOfWork.Save();
+            TempData["success"] = "Product created successfully";
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int? id)
