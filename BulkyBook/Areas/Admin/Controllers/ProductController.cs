@@ -4,6 +4,7 @@ using BulkyBook.Models.ViewModels;
 using BulkyBook.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 using NuGet.Packaging.Signing;
 
 namespace BulkyBook.Areas.Admin.Controllers
@@ -23,8 +24,8 @@ namespace BulkyBook.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> objCategoryList = _unitOfWork.Product.GetAll();
-            return View(objCategoryList);
+            // IEnumerable<Product> objCategoryList = _unitOfWork.Product.GetAll();
+            return View();
         }
 
         public IActionResult Create()
@@ -152,5 +153,16 @@ namespace BulkyBook.Areas.Admin.Controllers
             TempData["success"] = "Product Deleted successfully";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll( );
+            return Json(new { data = productList });
+        }
+
+        
+        #endregion
     }
 }
