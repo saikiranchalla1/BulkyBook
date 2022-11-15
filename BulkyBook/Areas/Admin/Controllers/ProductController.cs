@@ -1,5 +1,6 @@
 ﻿using BulkyBook.Data;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using BulkyBook.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -48,31 +49,35 @@ namespace BulkyBook.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
-            IEnumerable<SelectListItem> CategoryItemsList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            ProductVM productVM = new()
             {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            });
-            IEnumerable<SelectListItem> CoverTypeItemsList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            });
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                CoverTypeList = _unitOfWork.CoverType.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+            };
+
             if (id == null || id == 0)
             {
-                
-                ViewBag.CategoryList = CategoryItemsList;
-
-                ViewData["CoverTypeList"] = CoverTypeItemsList;
-                return View(product);
+                //create product
+                //ViewBag.CategoryList = CategoryList;
+                //ViewData["CoverTypeList"] = CoverTypeList;
+                return View(productVM);
             }
             else
             {
-                
-            }
+                productVM.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+                return View(productVM);
 
-            return View(product);
+                //update product
+            }
         }
 
 
